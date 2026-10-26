@@ -1,0 +1,106 @@
+name,email,intern_id,department,mentor_email
+Aaditya Verma,aaditya.verma@interns.company.com,INT-2026-101,AI/ML,mentor.sarah@company.com
+Aarohi Deshmukh,aarohi.deshmukh@interns.company.com,INT-2026-102,Backend Engineering,mentor.alex@company.com
+Abhinav Kulkarni,abhinav.kulkarni@interns.company.com,INT-2026-103,Cloud & DevOps,mentor.sarah@company.com
+Aditi Nair,aditi.nair@interns.company.com,INT-2026-104,Data Science,mentor.alex@company.com
+Advait Joshi,advait.joshi@interns.company.com,INT-2026-105,Frontend Engineering,mentor.sarah@company.com
+Aishwarya Rao,aishwarya.rao@interns.company.com,INT-2026-106,AI/ML,mentor.alex@company.com
+Akash Pillai,akash.pillai@interns.company.com,INT-2026-107,Cybersecurity,mentor.sarah@company.com
+Amrita Menon,amrita.menon@interns.company.com,INT-2026-108,Backend Engineering,mentor.alex@company.com
+Ananya Iyer,ananya.iyer@interns.company.com,INT-2026-109,Data Science,mentor.sarah@company.com
+Anik Chatterjee,anik.chatterjee@interns.company.com,INT-2026-110,Cloud & DevOps,mentor.alex@company.com
+Anirudh Nambiar,anirudh.nambiar@interns.company.com,INT-2026-111,Frontend Engineering,mentor.sarah@company.com
+Anjali Bhat,anjali.bhat@interns.company.com,INT-2026-112,AI/ML,mentor.alex@company.com
+Ankita Sengupta,ankita.sengupta@interns.company.com,INT-2026-113,Backend Engineering,mentor.sarah@company.com
+Arjun Namboodiri,arjun.namboodiri@interns.company.com,INT-2026-114,Data Science,mentor.alex@company.com
+Arnav Mehra,arnav.mehra@interns.company.com,INT-2026-115,Cybersecurity,mentor.sarah@company.com
+Aryan Kapoor,aryan.kapoor@interns.company.com,INT-2026-116,AI/ML,mentor.alex@company.com
+Avani Hegde,avani.hegde@interns.company.com,INT-2026-117,Cloud & DevOps,mentor.sarah@company.com
+Ayush Singhania,ayush.singhania@interns.company.com,INT-2026-118,Backend Engineering,mentor.alex@company.com
+Bhavya Reddy,bhavya.reddy@interns.company.com,INT-2026-119,Frontend Engineering,mentor.sarah@company.com
+Chaitanya Dixit,chaitanya.dixit@interns.company.com,INT-2026-120,Data Science,mentor.alex@company.com
+Chetan Anand,chetan.anand@interns.company.com,INT-2026-121,AI/ML,mentor.sarah@company.com
+Darshan Gowda,darshan.gowda@interns.company.com,INT-2026-122,Cloud & DevOps,mentor.alex@company.com
+Deepak Chawla,deepak.chawla@interns.company.com,INT-2026-123,Backend Engineering,mentor.sarah@company.com
+Devika Krishnan,devika.krishnan@interns.company.com,INT-2026-124,Data Science,mentor.alex@company.com
+Dhruv Malhotra,dhruv.malhotra@interns.company.com,INT-2026-125,Cybersecurity,mentor.sarah@company.com
+Divya Bhattacharya,divya.bhattacharya@interns.company.com,INT-2026-126,Frontend Engineering,mentor.alex@company.com
+Esha Vaidya,esha.vaidya@interns.company.com,INT-2026-127,AI/ML,mentor.sarah@company.com
+Gaurav Shekhawat,gaurav.shekhawat@interns.company.com,INT-2026-128,Backend Engineering,mentor.alex@company.com
+Gayatri Prabhu,gayatri.prabhu@interns.company.com,INT-2026-129,Cloud & DevOps,mentor.sarah@company.com
+Girish Nayak,girish.nayak@interns.company.com,INT-2026-130,Data Science,mentor.alex@company.com
+Harini Sundaram,harini.sundaram@interns.company.com,INT-2026-131,Frontend Engineering,mentor.sarah@company.com
+Harsh Vardhan,harsh.vardhan@interns.company.com,INT-2026-132,AI/ML,mentor.alex@company.com
+Hemant Chauhan,hemant.chauhan@interns.company.com,INT-2026-133,Backend Engineering,mentor.sarah@company.com
+Himani Tiwari,himani.tiwari@interns.company.com,INT-2026-134,Cybersecurity,mentor.alex@company.com
+Ila Swaminathan,ila.swaminathan@interns.company.com,INT-2026-135,Data Science,mentor.sarah@company.com
+Ishan Bakshi,ishan.bakshi@interns.company.com,INT-2026-136,Cloud & DevOps,mentor.alex@company.com
+Jaya Ranganathan,jaya.ranganathan@interns.company.com,INT-2026-137,AI/ML,mentor.sarah@company.com
+Jitendra Solanki,jitendra.solanki@interns.company.com,INT-2026-138,Backend Engineering,mentor.alex@company.com
+Juhi Agarwal,juhi.agarwal@interns.company.com,INT-2026-139,Frontend Engineering,mentor.sarah@company.com
+Karan Mathur,karan.mathur@interns.company.com,INT-2026-140,Data Science,mentor.alex@company.com
+Kartik Nambiar,kartik.nambiar@interns.company.com,INT-2026-141,AI/ML,mentor.sarah@company.com
+Kavya Srinivas,kavya.srinivas@interns.company.com,INT-2026-142,Cybersecurity,mentor.alex@company.com
+Ketan Bansal,ketan.bansal@interns.company.com,INT-2026-143,Backend Engineering,mentor.sarah@company.com
+Komal Aggarwal,komal.aggarwal@interns.company.com,INT-2026-144,Cloud & DevOps,mentor.alex@company.com
+Krishnan Unni,krishnan.unni@interns.company.com,INT-2026-145,Frontend Engineering,mentor.sarah@company.com
+Kriti Saxena,kriti.saxena@interns.company.com,INT-2026-146,Data Science,mentor.alex@company.com
+Kunal Bhardwaj,kunal.bhardwaj@interns.company.com,INT-2026-147,AI/ML,mentor.sarah@company.com
+Lavanya Murthy,lavanya.murthy@interns.company.com,INT-2026-148,Backend Engineering,mentor.alex@company.com
+Madhavan Soni,madhavan.soni@interns.company.com,INT-2026-149,Cloud & DevOps,mentor.sarah@company.com
+Malini Venkat,malini.venkat@interns.company.com,INT-2026-150,Cybersecurity,mentor.alex@company.com
+Manish Rathore,manish.rathore@interns.company.com,INT-2026-151,AI/ML,mentor.sarah@company.com
+Maya Somayaji,maya.somayaji@interns.company.com,INT-2026-152,Frontend Engineering,mentor.alex@company.com
+Mayank Rastogi,mayank.rastogi@interns.company.com,INT-2026-153,Data Science,mentor.sarah@company.com
+Megha Chadha,megha.chadha@interns.company.com,INT-2026-154,Backend Engineering,mentor.alex@company.com
+Mihir Sarabhai,mihir.sarabhai@interns.company.com,INT-2026-155,Cloud & DevOps,mentor.sarah@company.com
+Mohit Gokhale,mohit.gokhale@interns.company.com,INT-2026-156,AI/ML,mentor.alex@company.com
+Mukund Parikh,mukund.parikh@interns.company.com,INT-2026-157,Cybersecurity,mentor.sarah@company.com
+Naina Sehgal,naina.sehgal@interns.company.com,INT-2026-158,Frontend Engineering,mentor.alex@company.com
+Namrata Vohra,namrata.vohra@interns.company.com,INT-2026-159,Data Science,mentor.sarah@company.com
+Navin Talwar,navin.talwar@interns.company.com,INT-2026-160,Backend Engineering,mentor.alex@company.com
+Neeraj Goswami,neeraj.goswami@interns.company.com,INT-2026-161,AI/ML,mentor.sarah@company.com
+Neha Upadhyay,neha.upadhyay@interns.company.com,INT-2026-162,Cloud & DevOps,mentor.alex@company.com
+Nikhil Oberoi,nikhil.oberoi@interns.company.com,INT-2026-163,Cybersecurity,mentor.sarah@company.com
+Nirav Panchal,nirav.panchal@interns.company.com,INT-2026-164,Frontend Engineering,mentor.alex@company.com
+Nisha Mahajan,nisha.mahajan@interns.company.com,INT-2026-165,Data Science,mentor.sarah@company.com
+Nitin Kaul,nitin.kaul@interns.company.com,INT-2026-166,Backend Engineering,mentor.alex@company.com
+Pallavi Dhar,pallavi.dhar@interns.company.com,INT-2026-167,AI/ML,mentor.sarah@company.com
+Parth Goshal,parth.goshal@interns.company.com,INT-2026-168,Cloud & DevOps,mentor.alex@company.com
+Payal Somani,payal.somani@interns.company.com,INT-2026-169,Cybersecurity,mentor.sarah@company.com
+Pranav Deshpande,pranav.deshpande@interns.company.com,INT-2026-170,Frontend Engineering,mentor.alex@company.com
+Prerna Shinde,prerna.shinde@interns.company.com,INT-2026-171,Data Science,mentor.sarah@company.com
+Pritam Biswas,pritam.biswas@interns.company.com,INT-2026-172,Backend Engineering,mentor.alex@company.com
+Pooja Hegde,pooja.hegde@interns.company.com,INT-2026-173,AI/ML,mentor.sarah@company.com
+Rahul Kashyap,rahul.kashyap@interns.company.com,INT-2026-174,Cloud & DevOps,mentor.alex@company.com
+Rajeshwari Sen,rajeshwari.sen@interns.company.com,INT-2026-175,Frontend Engineering,mentor.sarah@company.com
+Rakshit Roy,rakshit.roy@interns.company.com,INT-2026-176,Cybersecurity,mentor.alex@company.com
+Rhea Batra,rhea.batra@interns.company.com,INT-2026-177,Data Science,mentor.sarah@company.com
+Rishi Agnihotri,rishi.agnihotri@interns.company.com,INT-2026-178,Backend Engineering,mentor.alex@company.com
+Ritika Chhabra,ritika.chhabra@interns.company.com,INT-2026-179,AI/ML,mentor.sarah@company.com
+Rupesh Khandelwal,rupesh.khandelwal@interns.company.com,INT-2026-180,Cloud & DevOps,mentor.alex@company.com
+Sadhana Sastry,sadhana.sastry@interns.company.com,INT-2026-181,Frontend Engineering,mentor.sarah@company.com
+Sameer Wadhwa,sameer.wadhwa@interns.company.com,INT-2026-182,Data Science,mentor.alex@company.com
+Samyukta Pillai,samyukta.pillai@interns.company.com,INT-2026-183,Cybersecurity,mentor.sarah@company.com
+Sanjay Grewal,sanjay.grewal@interns.company.com,INT-2026-184,Backend Engineering,mentor.alex@company.com
+Sanjana Poddar,sanjana.poddar@interns.company.com,INT-2026-185,AI/ML,mentor.sarah@company.com
+Saurabh Kedia,saurabh.kedia@interns.company.com,INT-2026-186,Cloud & DevOps,mentor.alex@company.com
+Shalini Trivedi,shalini.trivedi@interns.company.com,INT-2026-187,Frontend Engineering,mentor.sarah@company.com
+Shantanu Kar,shantanu.kar@interns.company.com,INT-2026-188,Data Science,mentor.alex@company.com
+Shivani Narang,shivani.narang@interns.company.com,INT-2026-189,Cybersecurity,mentor.sarah@company.com
+Shreya Som,shreya.som@interns.company.com,INT-2026-190,Backend Engineering,mentor.alex@company.com
+Siddharth Shukla,siddharth.shukla@interns.company.com,INT-2026-191,AI/ML,mentor.sarah@company.com
+Simran Bedi,simran.bedi@interns.company.com,INT-2026-192,Cloud & DevOps,mentor.alex@company.com
+Sourabh Bajpai,sourabh.bajpai@interns.company.com,INT-2026-193,Frontend Engineering,mentor.sarah@company.com
+Srishti Mathur,srishti.mathur@interns.company.com,INT-2026-194,Data Science,mentor.alex@company.com
+Subhashini Balan,subhashini.balan@interns.company.com,INT-2026-195,Cybersecurity,mentor.sarah@company.com
+Sumit Lal,sumit.lal@interns.company.com,INT-2026-196,Backend Engineering,mentor.alex@company.com
+Supriya Nadkarni,supriya.nadkarni@interns.company.com,INT-2026-197,AI/ML,mentor.sarah@company.com
+Tanmay Gadgil,tanmay.gadgil@interns.company.com,INT-2026-198,Cloud & DevOps,mentor.alex@company.com
+Tara Venkatesh,tara.venkatesh@interns.company.com,INT-2026-199,Frontend Engineering,mentor.sarah@company.com
+Tarun Bhasin,tarun.bhasin@interns.company.com,INT-2026-200,Data Science,mentor.alex@company.com
+Tejaswi Soni,tejaswi.soni@interns.company.com,INT-2026-201,Cybersecurity,mentor.sarah@company.com
+Trisha Mukherjee,trisha.mukherjee@interns.company.com,INT-2026-202,Backend Engineering,mentor.alex@company.com
+Udaya Lakshmi,udaya.lakshmi@interns.company.com,INT-2026-203,AI/ML,mentor.sarah@company.com
+Utkarsh Johri,utkarsh.johri@interns.company.com,INT-2026-204,Cloud & DevOps,mentor.alex@company.com
+Vaibhav Dewan,vaibhav.dewan@interns.company.com,INT-2026-205,Data Science,mentor.sarah@company.com

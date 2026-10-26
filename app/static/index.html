@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Intern Review Automation System</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="brand">
+      <div class="brand-logo">AI</div>
+      <div class="brand-text">
+        <h1>Intern Review Automation</h1>
+        <span>Enterprise Mentor & Review Intelligence</span>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <!-- Quick Role Switcher for instant testing -->
+      <div class="role-switcher-badge">
+        <i class="fa-solid fa-user-shield" style="color: var(--primary);"></i>
+        <span>Switch Persona:</span>
+        <select id="quickRoleSwitch" class="quick-switch-dropdown" onchange="handleQuickRoleChange(this.value)">
+          <option value="admin">Administrator (Full Control)</option>
+          <option value="mentor">Mentor: Sarah Jenkins</option>
+          <option value="intern_aarav">Intern: Aarav Patel (AI/ML)</option>
+          <option value="intern_sneha">Intern: Sneha Sharma (Backend)</option>
+        </select>
+      </div>
+
+      <div class="user-pill">
+        <div class="user-avatar" id="navUserAvatar">A</div>
+        <div>
+          <div id="navUserName" style="font-weight: 600;">System Administrator</div>
+          <div id="navUserRole" style="font-size: 0.75rem; color: var(--text-muted);">ADMIN</div>
+        </div>
+      </div>
+
+      <button class="btn-logout" onclick="openLoginModal()" title="Login with custom credentials">
+        <i class="fa-solid fa-right-to-bracket"></i> Login
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-container">
+
+    <!-- Tab Navigation (shown for Admin / Mentor) -->
+    <nav class="tab-navigation" id="mainTabNav">
+      <button class="tab-btn active" data-tab="admin-dashboard" onclick="switchTab('admin-dashboard')">
+        <i class="fa-solid fa-chart-pie"></i> Dashboard
+      </button>
+      <button class="tab-btn" data-tab="admin-interns" onclick="switchTab('admin-interns')">
+        <i class="fa-solid fa-users"></i> Interns Management <span class="tab-badge" id="internsCountBadge">0</span>
+      </button>
+      <button class="tab-btn" data-tab="admin-tasks" onclick="switchTab('admin-tasks')">
+        <i class="fa-solid fa-list-check"></i> Tasks & Rubrics
+      </button>
+      <button class="tab-btn" data-tab="mentor-workspace" onclick="switchTab('mentor-workspace')">
+        <i class="fa-solid fa-clipboard-check"></i> Mentor Workspace <span class="tab-badge" id="pendingEvalBadge">0</span>
+      </button>
+      <button class="tab-btn" data-tab="admin-reviews" onclick="switchTab('admin-reviews')">
+        <i class="fa-solid fa-calendar-days"></i> Review Schedule
+      </button>
+      <button class="tab-btn" data-tab="admin-emails" onclick="switchTab('admin-emails')">
+        <i class="fa-solid fa-envelope"></i> Email Activity Log
+      </button>
+      <button class="tab-btn" data-tab="admin-audit" onclick="switchTab('admin-audit')">
+        <i class="fa-solid fa-shield-halved"></i> Audit Trail
+      </button>
+      <button class="tab-btn" data-tab="intern-portal" onclick="switchTab('intern-portal')">
+        <i class="fa-solid fa-laptop-code"></i> Intern Portal View
+      </button>
+    </nav>
+
+    <!-- ==================== TAB 1: ADMIN DASHBOARD ==================== -->
+    <section id="tab-admin-dashboard" class="tab-content">
+      <div class="stats-grid">
+        <div class="stat-card primary">
+          <div class="stat-label">Total Interns</div>
+          <div class="stat-value" id="statTotalInterns">0</div>
+          <div class="stat-subtext">Active cohort size</div>
+        </div>
+        <div class="stat-card info">
+          <div class="stat-label">Not Started</div>
+          <div class="stat-value" id="statNotStarted">0</div>
+          <div class="stat-subtext">Registered / newly assigned</div>
+        </div>
+        <div class="stat-card warning">
+          <div class="stat-label">In Progress</div>
+          <div class="stat-value" id="statInProgress">0</div>
+          <div class="stat-subtext">Working on deliverables</div>
+        </div>
+        <div class="stat-card accent">
+          <div class="stat-label">Submitted for Review</div>
+          <div class="stat-value" id="statSubmitted">0</div>
+          <div class="stat-subtext">AI evaluated / awaiting mentor</div>
+        </div>
+        <div class="stat-card success">
+          <div class="stat-label">Reviews Scheduled</div>
+          <div class="stat-value" id="statReviewsScheduled">0</div>
+          <div class="stat-subtext">Google Meet links assigned</div>
+        </div>
+        <div class="stat-card success">
+          <div class="stat-label">Reviews Completed</div>
+          <div class="stat-value" id="statReviewsCompleted">0</div>
+          <div class="stat-subtext">Final feedback recorded</div>
+        </div>
+        <div class="stat-card danger">
+          <div class="stat-label">Overdue Deadlines</div>
+          <div class="stat-value" id="statOverdue">0</div>
+          <div class="stat-subtext">Missed submission cutoff</div>
+        </div>
+        <div class="stat-card warning">
+          <div class="stat-label">Corrections Required</div>
+          <div class="stat-value" id="statNeedsReview">0</div>
+          <div class="stat-subtext">Revision cycle active</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2><i class="fa-regular fa-calendar-check" style="color: var(--primary);"></i> Upcoming Review Meetings</h2>
+          <button class="btn btn-primary btn-sm" onclick="openScheduleReviewModal()">
+            <i class="fa-solid fa-plus"></i> Schedule New Review
+          </button>
+        </div>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Intern Name</th>
+                <th>Intern ID</th>
+                <th>Mentor</th>
+                <th>Date & Time</th>
+                <th>Google Meet Link</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="upcomingReviewsTableBody">
+              <tr><td colspan="7" style="text-align:center;">Loading upcoming reviews...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: INTERNS MANAGEMENT ==================== -->
+    <section id="tab-admin-interns" class="tab-content" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <h2><i class="fa-solid fa-users" style="color: var(--primary);"></i> Intern Cohort Directory (100+ Interns)</h2>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn btn-secondary btn-sm" onclick="openImportModal()">
+              <i class="fa-solid fa-file-import"></i> Import 100+ CSV/Excel
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="openAddInternModal()">
+              <i class="fa-solid fa-user-plus"></i> Add Intern
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <div class="filter-bar">
+          <div class="filter-search">
+            <input type="text" id="internSearchInput" placeholder="🔍 Search by name, email, or intern ID..." oninput="debounceLoadInterns()">
+          </div>
+          <div style="width: 180px;">
+            <select id="internDeptFilter" onchange="loadInternsTable()">
+              <option value="">All Departments</option>
+              <option value="AI/ML">AI/ML</option>
+              <option value="Backend Engineering">Backend Engineering</option>
+              <option value="Cloud & DevOps">Cloud & DevOps</option>
+              <option value="Data Science">Data Science</option>
+              <option value="Frontend Engineering">Frontend Engineering</option>
+              <option value="Cybersecurity">Cybersecurity</option>
+            </select>
+          </div>
+          <div style="width: 190px;">
+            <select id="internStatusFilter" onchange="loadInternsTable()">
+              <option value="">All Statuses</option>
+              <option value="Registered">Registered</option>
+              <option value="Task Assigned">Task Assigned</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Submitted">Submitted</option>
+              <option value="Mentor Approval Pending">Mentor Approval Pending</option>
+              <option value="Review Scheduled">Review Scheduled</option>
+              <option value="Feedback Published">Feedback Published</option>
+              <option value="Corrections Required">Corrections Required</option>
+              <option value="Resubmitted">Resubmitted</option>
+              <option value="Approved">Approved</option>
+              <option value="Overdue">Overdue</option>
+            </select>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="resetInternFilters()">Reset</button>
+        </div>
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Intern ID</th>
+                <th>Name & Email</th>
+                <th>Department</th>
+                <th>Assigned Mentor</th>
+                <th>Assigned Task</th>
+                <th>Deadline</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="internsTableBody">
+              <tr><td colspan="8" style="text-align: center;">Loading interns...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: TASKS & RUBRICS ==================== -->
+    <section id="tab-admin-tasks" class="tab-content" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <h2><i class="fa-solid fa-list-check" style="color: var(--primary);"></i> Task Repository & Evaluation Rubrics</h2>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn btn-secondary btn-sm" onclick="openAssignTaskModal()">
+              <i class="fa-solid fa-user-check"></i> Assign Task to Interns
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="openCreateTaskModal()">
+              <i class="fa-solid fa-plus"></i> Create New Task
+            </button>
+          </div>
+        </div>
+
+        <div id="tasksListContainer" style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: MENTOR WORKSPACE ==================== -->
+    <section id="tab-mentor-workspace" class="tab-content" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <h2><i class="fa-solid fa-clipboard-check" style="color: var(--primary);"></i> Submissions Pending Mentor Review & Approval</h2>
+          <span style="font-size: 0.8125rem; color: var(--text-muted);">Human-in-the-loop: Mentors approve or edit AI provisional scores before publication</span>
+        </div>
+
+        <div id="mentorPendingList">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 5: REVIEW SCHEDULE ==================== -->
+    <section id="tab-admin-reviews" class="tab-content" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <h2><i class="fa-solid fa-calendar-days" style="color: var(--primary);"></i> Review Schedules & Google Meet Coordination</h2>
+          <button class="btn btn-primary btn-sm" onclick="openScheduleReviewModal()">
+            <i class="fa-solid fa-calendar-plus"></i> Schedule Review
+          </button>
+        </div>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Intern</th>
+                <th>Mentor</th>
+                <th>Date</th>
+                <th>Time (Timezone)</th>
+                <th>Google Meet Link</th>
+                <th>Status</th>
+                <th>Reminders</th>
+              </tr>
+            </thead>
+            <tbody id="reviewsAllTableBody">
+              <tr><td colspan="8" style="text-align: center;">Loading reviews...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 6: EMAIL ACTIVITY LOG ==================== -->
+    <section id="tab-admin-emails" class="tab-content" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <h2><i class="fa-solid fa-envelope-open-text" style="color: var(--primary);"></i> Automated Email Dispatch & Delivery Logs</h2>
+          <button class="btn btn-secondary btn-sm" onclick="loadEmailLogs()">
+            <i class="fa-solid fa-arrows-rotate"></i> Refresh Logs
+          </button>
+        </div>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Sent At</th>
+                <th>Recipient</th>
+                <th>Template / Type</th>
+                <th>Subject</th>
+                <th>Status</th>
+                <th>Preview / Error</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="emailLogsTableBody">
+              <tr><td colspan="7" style="text-align: center;">Loading email activity...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 7: AUDIT TRAIL ==================== -->
+    <section id="tab-admin-audit" class="tab-content" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <h2><i class="fa-solid fa-shield-halved" style="color: var(--primary);"></i> System Security & Workflow Audit Trail</h2>
+          <button class="btn btn-secondary btn-sm" onclick="loadAuditLogs()">
+            <i class="fa-solid fa-arrows-rotate"></i> Refresh Audit Trail
+          </button>
+        </div>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Action</th>
+                <th>Actor</th>
+                <th>Target Intern ID</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="auditLogsTableBody">
+              <tr><td colspan="5" style="text-align: center;">Loading audit logs...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 8: INTERN PORTAL VIEW ==================== -->
+    <section id="tab-intern-portal" class="tab-content" style="display: none;">
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+        <div>
+          <!-- Assigned Task Card -->
+          <div class="card" id="internTaskCard">
+            <div class="card-header">
+              <h2 id="portalTaskTitle">Assigned Task</h2>
+              <span class="badge badge-task-assigned" id="portalTaskDeadlineBadge">Deadline: Soon</span>
+            </div>
+            <p id="portalTaskDescription" style="margin-bottom: 1rem; color: var(--text-muted);"></p>
+            <div style="background: var(--bg-subtle); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+              <strong>Expected Deliverables:</strong>
+              <pre id="portalTaskDeliverables" style="white-space: pre-wrap; font-family: inherit; font-size: 0.875rem; margin-top: 0.25rem;"></pre>
+            </div>
+            <div id="portalRubricPreview"></div>
+          </div>
+
+          <!-- Corrections Required Banner (if active) -->
+          <div class="card" id="internCorrectionsCard" style="display: none; border-color: #fca5a5; background: #fff1f2;">
+            <div class="card-header" style="border-bottom-color: #fecdd3;">
+              <h2 style="color: #be123c;"><i class="fa-solid fa-triangle-exclamation"></i> Corrections Required by Mentor</h2>
+              <span class="badge badge-corrections-required" id="portalResubmissionDeadline">Resubmit Soon</span>
+            </div>
+            <div style="margin-bottom: 0.75rem;">
+              <strong>Mentor's Correction Checklist:</strong>
+              <pre id="portalCorrectionChecklist" style="white-space: pre-wrap; font-family: inherit; font-size: 0.875rem; color: #9f1239; margin-top: 0.25rem;"></pre>
+            </div>
+          </div>
+
+          <!-- Upload Submission Section -->
+          <div class="card">
+            <div class="card-header">
+              <h2><i class="fa-solid fa-cloud-arrow-up" style="color: var(--primary);"></i> Upload Completed Deliverables</h2>
+              <span id="portalCurrentVersionBadge" class="badge badge-info">Version 1 Upload</span>
+            </div>
+            <form id="submissionUploadForm" onsubmit="handleSubmissionUpload(event)">
+              <div class="upload-dropzone" id="submissionDropZone" onclick="document.getElementById('submissionFileInput').click()">
+                <div class="upload-icon"><i class="fa-solid fa-file-arrow-up"></i></div>
+                <h4 id="selectedFileName">Drag and drop deliverable file, or click to browse</h4>
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem;">Supported formats: PDF, DOCX, ZIP, or Code files (.py, .js, .java, etc.) up to 25MB</p>
+                <input type="file" id="submissionFileInput" style="display: none;" onchange="handleFileSelect(this)">
+              </div>
+
+              <div style="margin-top: 1rem;">
+                <label style="font-weight: 600; font-size: 0.8125rem;">Submission Description / Notes:</label>
+                <textarea id="submissionNotesInput" rows="2" placeholder="Briefly describe what you implemented or any special instructions for the reviewer..."></textarea>
+              </div>
+
+              <div style="margin-top: 1rem; text-align: right;">
+                <button type="submit" class="btn btn-primary" id="btnSubmitDeliverable">
+                  <i class="fa-solid fa-paper-plane"></i> Submit Deliverables for AI Verification
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Submission & Evaluation History -->
+          <div class="card">
+            <div class="card-header">
+              <h2><i class="fa-solid fa-clock-rotate-left" style="color: var(--primary);"></i> Submission History & Evaluation Reports</h2>
+            </div>
+            <div id="internSubmissionsHistoryList">
+              <p style="color: var(--text-muted); font-size: 0.875rem;">No submissions recorded yet.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Intern Profile & Review Meeting Card -->
+        <div>
+          <div class="card">
+            <div class="card-header">
+              <h2>My Profile</h2>
+              <span class="badge" id="portalInternStatusBadge">Registered</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.875rem;">
+              <div><strong>Name:</strong> <span id="portalInternName">-</span></div>
+              <div><strong>Intern ID:</strong> <span id="portalInternId">-</span></div>
+              <div><strong>Department:</strong> <span id="portalInternDept">-</span></div>
+              <div><strong>Mentor:</strong> <span id="portalMentorName">-</span></div>
+            </div>
+          </div>
+
+          <!-- Review Meeting Box -->
+          <div class="card" id="portalReviewMeetingCard">
+            <div class="card-header">
+              <h2><i class="fa-solid fa-video" style="color: var(--success);"></i> Review Meeting</h2>
+            </div>
+            <div id="portalReviewDetailsContent">
+              <p style="font-size: 0.875rem; color: var(--text-muted);">No upcoming review meeting scheduled yet.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== FLOATING AI CHATBOT ==================== -->
+  <div class="chatbot-container" id="chatbotContainer">
+    <div class="chatbot-panel" id="chatbotPanel">
+      <div class="chatbot-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-solid fa-robot"></i>
+          <div>
+            <div style="font-weight: 700; font-size: 0.9375rem;">Intern AI Assistant</div>
+            <div style="font-size: 0.6875rem; opacity: 0.85;">Grounded in your actual records</div>
+          </div>
+        </div>
+        <button class="close-btn" style="color: white;" onclick="toggleChatbot()">&times;</button>
+      </div>
+
+      <div class="chatbot-messages" id="chatMessages">
+        <div class="chat-bubble assistant">
+          Hello! I am your AI Internship Review Assistant. Ask me anything about your assigned task, submission deadline, next review meeting, or mentor feedback!
+        </div>
+      </div>
+
+      <!-- Quick Question Chips -->
+      <div class="quick-chips">
+        <div class="chip" onclick="askQuickChip('What task has been assigned to me?')">My Task?</div>
+        <div class="chip" onclick="askQuickChip('What is my submission deadline?')">My Deadline?</div>
+        <div class="chip" onclick="askQuickChip('When is my next review?')">Next Review?</div>
+        <div class="chip" onclick="askQuickChip('Where can I join my review meeting?')">Meet Link?</div>
+        <div class="chip" onclick="askQuickChip('Have I submitted my task?')">Submission Status?</div>
+        <div class="chip" onclick="askQuickChip('What corrections should I make?')">Corrections?</div>
+        <div class="chip" onclick="askQuickChip('Can I resubmit my task?')">Can I Resubmit?</div>
+      </div>
+
+      <form class="chatbot-input-bar" onsubmit="handleSendChatMessage(event)">
+        <input type="text" id="chatInput" placeholder="Ask your internship assistant..." autocomplete="off">
+        <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-paper-plane"></i></button>
+      </form>
+    </div>
+
+    <button class="chatbot-toggle-btn" onclick="toggleChatbot()" title="Open Intern AI Chatbot">
+      <i class="fa-solid fa-robot"></i>
+    </button>
+  </div>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- Modal: Bulk Import 100+ Interns -->
+  <div class="modal-overlay" id="importModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-file-import" style="color: var(--primary);"></i> Import 100+ Interns (CSV or Excel)</h2>
+        <button class="close-btn" onclick="closeModal('importModal')">&times;</button>
+      </div>
+      <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Upload a CSV or Excel file containing columns: <code>name</code>, <code>email</code>, <code>intern_id</code>, <code>department</code>, <code>mentor_email</code>.
+        Email addresses are automatically validated and duplicate records are safely skipped.
+      </p>
+
+      <div style="background: var(--bg-subtle); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+        <strong>Quick Test:</strong> Load the pre-bundled 105 realistic intern records:
+        <div style="margin-top: 0.5rem;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="loadBundledSampleCSV()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Load Bundled 105 Interns CSV
+          </button>
+        </div>
+      </div>
+
+      <form id="bulkImportForm" onsubmit="handleBulkImport(event)">
+        <div class="upload-dropzone" onclick="document.getElementById('importFileInput').click()">
+          <div class="upload-icon"><i class="fa-solid fa-file-csv"></i></div>
+          <h4 id="importFileName">Select or drag CSV / Excel file here</h4>
+          <input type="file" id="importFileInput" accept=".csv, .xlsx, .xls" style="display: none;" onchange="handleImportFileSelect(this)">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('importModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnSubmitImport">Import Interns</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Single Intern -->
+  <div class="modal-overlay" id="addInternModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-user-plus" style="color: var(--primary);"></i> Add Single Intern</h2>
+        <button class="close-btn" onclick="closeModal('addInternModal')">&times;</button>
+      </div>
+      <form id="addInternForm" onsubmit="handleAddIntern(event)">
+        <div style="display: grid; gap: 0.75rem;">
+          <div>
+            <label style="font-size: 0.8125rem; font-weight: 600;">Full Name:</label>
+            <input type="text" id="addInternName" required placeholder="e.g., Ananya Sharma">
+          </div>
+          <div>
+            <label style="font-size: 0.8125rem; font-weight: 600;">Email Address:</label>
+            <input type="email" id="addInternEmail" required placeholder="e.g., ananya.sharma@company.com">
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div>
+              <label style="font-size: 0.8125rem; font-weight: 600;">Intern ID:</label>
+              <input type="text" id="addInternId" required placeholder="e.g., INT-2026-301">
+            </div>
+            <div>
+              <label style="font-size: 0.8125rem; font-weight: 600;">Department / Domain:</label>
+              <select id="addInternDept" required>
+                <option value="AI/ML">AI/ML</option>
+                <option value="Backend Engineering">Backend Engineering</option>
+                <option value="Cloud & DevOps">Cloud & DevOps</option>
+                <option value="Data Science">Data Science</option>
+                <option value="Frontend Engineering">Frontend Engineering</option>
+                <option value="Cybersecurity">Cybersecurity</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('addInternModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Intern Record</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Create Task -->
+  <div class="modal-overlay" id="createTaskModal">
+    <div class="modal-content" style="max-width: 750px;">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-plus-circle" style="color: var(--primary);"></i> Create Internship Task & Rubric</h2>
+        <button class="close-btn" onclick="closeModal('createTaskModal')">&times;</button>
+      </div>
+      <form id="createTaskForm" onsubmit="handleCreateTask(event)">
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <div>
+            <label style="font-size: 0.8125rem; font-weight: 600;">Task Title:</label>
+            <input type="text" id="taskTitleInput" required placeholder="e.g., Cloud Native Microservices Architecture">
+          </div>
+          <div>
+            <label style="font-size: 0.8125rem; font-weight: 600;">Detailed Description:</label>
+            <textarea id="taskDescInput" rows="2" required placeholder="Provide clear task background and goals..."></textarea>
+          </div>
+          <div>
+            <label style="font-size: 0.8125rem; font-weight: 600;">Expected Deliverables:</label>
+            <textarea id="taskDeliverablesInput" rows="2" required placeholder="e.g., 1. Source code in Git / ZIP. 2. Architecture report (PDF). 3. Unit test results."></textarea>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div>
+              <label style="font-size: 0.8125rem; font-weight: 600;">Submission Format:</label>
+              <input type="text" id="taskFormatInput" value="PDF, DOCX, ZIP, or Code Files">
+            </div>
+            <div>
+              <label style="font-size: 0.8125rem; font-weight: 600;">Maximum Marks:</label>
+              <input type="number" id="taskMaxMarksInput" value="100">
+            </div>
+          </div>
+
+          <!-- Dynamic Rubric Criteria Builder -->
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <label style="font-size: 0.8125rem; font-weight: 600;">Evaluation Rubric Criteria (Used by AI Engine):</label>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="addRubricRow()">+ Add Criterion</button>
+            </div>
+            <div id="rubricRowsContainer" style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <!-- Default initial row -->
+              <div class="rubric-row" style="display: grid; grid-template-columns: 2fr 3fr 1fr auto; gap: 0.5rem; align-items: center;">
+                <input type="text" class="rubric-req" placeholder="Criterion name" value="Code Quality & Structure" required>
+                <input type="text" class="rubric-desc" placeholder="Criteria description" value="Clean modular functions, error handling, comments" required>
+                <input type="number" class="rubric-marks" placeholder="Marks" value="25" required>
+                <button type="button" class="close-btn" onclick="this.parentElement.remove()">&times;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('createTaskModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Task & Rubric</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Assign Task to Interns -->
+  <div class="modal-overlay" id="assignTaskModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-user-check" style="color: var(--primary);"></i> Assign Task to Interns</h2>
+        <button class="close-btn" onclick="closeModal('assignTaskModal')">&times;</button>
+      </div>
+      <form id="assignTaskForm" onsubmit="handleAssignTask(event)">
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <div>
+            <label style="font-size: 0.8125rem; font-weight: 600;">Select Task:</label>
+            <select id="assignTaskSelect" required></select>
+          </div>
+          <div>
+            <label style="font-size: 0.8125rem; font-weight: 600;">Task Deadline:</label>
+            <input type="datetime-local" id="assignTaskDeadline" required>
+          </div>
+          <div>
+            <label style="font-size: 0.8125rem; font-weight: 600;">Quick Filter Interns by Department:</label>
+            <select id="assignDeptFilter" onchange="filterAssignInternsList(this.value)">
+              <option value="">All Interns</option>
+              <option value="AI/ML">AI/ML</option>
+              <option value="Backend Engineering">Backend Engineering</option>
+              <option value="Cloud & DevOps">Cloud & DevOps</option>
+              <option value="Data Science">Data Science</option>
+              <option value="Frontend Engineering">Frontend Engineering</option>
+              <option value="Cybersecurity">Cybersecurity</option>
+            </select>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <label style="font-size: 0.8125rem; font-weight: 600;">Select Interns:</label>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="toggleSelectAllInterns()">Select / Deselect All</button>
+            </div>
+            <div id="assignInternsCheckboxList" style="max-height: 200px; overflow-y: auto; border: 1px solid var(--border); padding: 0.5rem; border-radius: var(--radius-sm);">
+              <!-- Checkboxes populated dynamically -->
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <input type="checkbox" id="assignSendEmailCheck" checked style="width: auto;">
+            <label for="assignSendEmailCheck" style="font-size: 0.8125rem;">Automatically dispatch personalized task assignment email to each intern</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('assignTaskModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnConfirmAssign">Assign Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Schedule Review -->
+  <div class="modal-overlay" id="scheduleReviewModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-calendar-plus" style="color: var(--primary);"></i> Schedule Performance Review</h2>
+        <button class="close-btn" onclick="closeModal('scheduleReviewModal')">&times;</button>
+      </div>
+      <form id="scheduleReviewForm" onsubmit="handleScheduleReview(event)">
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <div>
+            <label style="font-size: 0.8125rem; font-weight: 600;">Select Intern:</label>
+            <select id="scheduleInternSelect" required></select>
+          </div>
+          <div>
+            <label style="font-size: 0.8125rem; font-weight: 600;">Select Mentor:</label>
+            <select id="scheduleMentorSelect" required></select>
+          </div>
+          <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 0.5rem;">
+            <div>
+              <label style="font-size: 0.8125rem; font-weight: 600;">Review Date:</label>
+              <input type="date" id="scheduleReviewDate" required>
+            </div>
+            <div>
+              <label style="font-size: 0.8125rem; font-weight: 600;">Start Time:</label>
+              <input type="time" id="scheduleStartTime" value="14:00" required>
+            </div>
+            <div>
+              <label style="font-size: 0.8125rem; font-weight: 600;">End Time:</label>
+              <input type="time" id="scheduleEndTime" value="14:45" required>
+            </div>
+          </div>
+          <div>
+            <label style="font-size: 0.8125rem; font-weight: 600;">Google Meet Link (Manual or Valid Meet URL):</label>
+            <input type="url" id="scheduleMeetLink" placeholder="https://meet.google.com/abc-defg-hij" required>
+            <small style="color: var(--text-muted); font-size: 0.75rem;">Real Google Meet link. Format: https://meet.google.com/xxx-xxxx-xxx</small>
+          </div>
+          <div>
+            <label style="font-size: 0.8125rem; font-weight: 600;">Review Notes / Instructions:</label>
+            <textarea id="scheduleNotes" rows="2" placeholder="Instructions for intern (e.g. Prepare 5 min architecture demo)..."></textarea>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <input type="checkbox" id="scheduleSendEmailCheck" checked style="width: auto;">
+            <label for="scheduleSendEmailCheck" style="font-size: 0.8125rem;">Automatically dispatch email invitation with Meet link</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('scheduleReviewModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Schedule Meeting</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Mentor Evaluation Review Workspace -->
+  <div class="modal-overlay" id="mentorReviewModal">
+    <div class="modal-content" style="max-width: 800px;">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-graduation-cap" style="color: var(--primary);"></i> Mentor Evaluation Workspace</h2>
+        <button class="close-btn" onclick="closeModal('mentorReviewModal')">&times;</button>
+      </div>
+      <div id="mentorReviewModalContent">
+        <!-- Dynamic content: AI rubric evaluation + editable mentor overrides -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Intern Profile Details Drawer -->
+  <div class="modal-overlay" id="internDetailModal">
+    <div class="modal-content" style="max-width: 750px;">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-id-card" style="color: var(--primary);"></i> Intern Full Profile & History</h2>
+        <button class="close-btn" onclick="closeModal('internDetailModal')">&times;</button>
+      </div>
+      <div id="internDetailModalContent">
+        <!-- Dynamic intern record & submission history -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" style="position: fixed; top: 20px; right: 20px; z-index: 999; display: flex; flex-direction: column; gap: 0.5rem;"></div>
+
+  <!-- Script Imports -->
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
